@@ -18,11 +18,25 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
     const id = parseInt(req.params.id, 10);
+    const { title, completed } = req.body;
+
+    console.log("Received ID:", id);
+    console.log("Request Body:", req.body);
+
+    // Validate input data
+    if (!title && typeof completed === "undefined") {
+        console.error("Invalid input data");
+        return res.status(400).json({ error: "Invalid input data" });
+    }
+
     const updatedTodo = updateTodo(id, req.body);
 
     if (!updatedTodo) {
+        console.error("Todo not found for ID:", id);
         return res.status(404).json({ error: "Todo not found" });
     }
+
+    console.log("Updated Todo:", updatedTodo);
     res.json(updatedTodo);
 });
 

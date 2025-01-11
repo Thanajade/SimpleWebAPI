@@ -12,11 +12,21 @@ function addTodo(todo) {
 
 function updateTodo(id, updatedFields) {
     const todo = todos.find((todo) => todo.id === id);
-    if (!todo) return null;
 
-    Object.assign(todo, updatedFields);
+    if (!todo) {
+        console.error("Todo not found in updateTodo function for ID:", id);
+        return null; // Return null if the todo doesn't exist
+    }
+
+    // Update only provided fields
+    if (updatedFields.title !== undefined) todo.title = updatedFields.title;
+    if (updatedFields.completed !== undefined) todo.completed = updatedFields.completed;
+
+    console.log("Updated Todo in Memory:", todo);
     return todo;
 }
+
+module.exports = { getTodos, addTodo, deleteTodo, updateTodo };
 
 function deleteTodo(id) {
     todos = todos.filter((todo) => todo.id !== id);
@@ -26,5 +36,3 @@ function deleteTodo(id) {
 
 
 module.exports = { getTodos, addTodo, deleteTodo, updateTodo };
-
-module.exports = { getTodos, addTodo, deleteTodo };
