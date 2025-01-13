@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
   res.status(200).json({
     message: "SimpleAPI",
     version: versionData,
+    environment: process.env.NODE_ENV || "development",
   });
 });
 
