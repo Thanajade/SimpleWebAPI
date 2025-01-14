@@ -88,7 +88,7 @@ pipeline {
         stage('Tag Docker Image') {
             steps {
                 echo "Tagging Docker image for ECR..."
-                sh "docker tag ${DOCKER_IMAGE} ${ECR_REPO}:latest"
+                sh "docker tag ${DOCKER_IMAGE} ${ECR_REPO}"
             }
         }
         stage('Login to AWS ECR') {
