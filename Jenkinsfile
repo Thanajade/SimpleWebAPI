@@ -19,6 +19,14 @@ pipeline {
                 sh 'apt-get update && apt-get install -y git'
             }
         }
+        stage('Install Docker') {
+            steps {
+                sh '''
+                apt-get update
+                apt-get install -y docker.io
+                '''
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout([
