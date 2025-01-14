@@ -28,6 +28,26 @@ pipeline {
                 ])
             }
         }
+        stage('Generate Version File') {
+            steps {
+                echo "Generating version.json..."
+                script {
+                    def buildTimestamp = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))
+                    def timezone = TimeZone.getDefault().getID()
+                    def gitHash = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
+                    def gitBranch = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
+
+                    def versionInfo = [
+                        buildTimestamp: buildTimestamp,
+                        timezone: timezone,
+                        gitHash: gitHash,
+                        gitBranch: gitBranch
+                    ]
+
+                    writeFile file: 'version.json', text: groovy.json.JsonOutput.toJson(versionInfo)
+                }
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 echo "Installing project dependencies..."

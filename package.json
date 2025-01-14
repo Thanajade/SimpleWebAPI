@@ -9,7 +9,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:verbose": "jest --verbose",
-    "build": "npm install && npm run test && npm run generate-version && npm run webpack && npm prune --production",
+    "build": "npm install && npm run test && npm run webpack && npm prune --production",
     "webpack": "webpack",
     "generate-version": "node scripts/generateVersion.js"
   },
