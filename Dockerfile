@@ -1,5 +1,5 @@
 # Base image
-FROM node:18
+FROM node:22
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -12,6 +12,9 @@ RUN npm install
 
 # Copy source files
 COPY . .
+
+# Run tests
+RUN npm test
 
 # Expose port
 EXPOSE 3000

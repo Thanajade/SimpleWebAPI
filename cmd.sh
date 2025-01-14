@@ -5,8 +5,14 @@ npm install express supertest jest
 npm test
 
 # Build and run with podman compose
-podman-compose up --build
+podman-compose up -d --build
 
 # Down podman compose
 podman-compose down --remove-orphan
 
+# Build dist
+rm -rf node_modules/.cache
+npm run build
+
+# Run dist
+node dist/index.js

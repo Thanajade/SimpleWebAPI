@@ -4,9 +4,45 @@ const path = require("path");
 
 const router = express.Router();
 
-// Load version.json content
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Retrieve API version and environment information
+ *     description: Returns the API version from version.json and the current environment.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved version and environment information.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "SimpleAPI"
+ *                 version:
+ *                   type: object
+ *                   description: API version details from version.json.
+ *                   example: { "version": "1.0.0" }
+ *                 environment:
+ *                   type: string
+ *                   example: "development"
+ *       500:
+ *         description: Failed to load version information.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Unable to load version information"
+ */
 router.get("/", (req, res) => {
-  const versionPath = path.join(__dirname, "../../version.json");
+  const versionPath = process.env.NODE_ENV === "production"
+      ? path.join(__dirname, "version.json") // In production, `__dirname` points to the correct location
+      : path.resolve(process.cwd(), "./version.json"); // In development, resolve relative to project root
 
   let versionData = {};
   try {
