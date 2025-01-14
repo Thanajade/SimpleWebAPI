@@ -103,7 +103,7 @@ pipeline {
         stage('Push Docker Image to ECR') {
             steps {
                 echo "Pushing Docker image to AWS ECR..."
-                sh "docker push ${ECR_REPO}:latest"
+                sh "docker push ${ECR_REPO}"
             }
         }
     }
