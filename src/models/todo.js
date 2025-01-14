@@ -26,8 +26,6 @@ function updateTodo(id, updatedFields) {
     return todo;
 }
 
-module.exports = { getTodos, addTodo, deleteTodo, updateTodo };
-
 function deleteTodo(id) {
     todos = todos.filter((todo) => todo.id !== id);
     return todos;

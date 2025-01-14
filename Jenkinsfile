@@ -10,27 +10,22 @@ pipeline {
         AWS_ACCOUNT_ID = "220140342356"
         AWS_REGION = "ap-southeast-1"
         ECR_REPO = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/softsmith/${DOCKER_IMAGE}"
-        AWS_CREDENTIALS = 'aws-credentials'
+        AWS_CREDENTIALS = 'aws-credentials' // ID of AWS credentials in Jenkins
+        GIT_CREDENTIALS = 'github-credentials' // ID of GitHub credentials in Jenkins
     }
     stages {
-        agent any
-        environment {
-            GIT_CREDENTIALS = 'github-credentials'
-        }
-        stages {
-            stage('Checkout') {
-                steps {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/main']],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [],
-                        userRemoteConfigs: [[
-                            url: 'https://github.com/your-username/private-repo.git',
-                            credentialsId: GIT_CREDENTIALS
-                        ]]
-                    ])
-                }
+        stage('Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/Thanajade/SimpleWebAPI.git',
+                        credentialsId: GIT_CREDENTIALS
+                    ]]
+                ])
             }
         }
         stage('Install Dependencies') {
