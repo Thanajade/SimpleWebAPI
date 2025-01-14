@@ -10,6 +10,7 @@ pipeline {
         AWS_ACCOUNT_ID = "220140342356"
         AWS_REGION = "ap-southeast-1"
         ECR_REPO = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/softsmith/${DOCKER_IMAGE}"
+        AWS_CREDENTIALS = 'aws-credentials'
     }
     stages {
         agent any
@@ -64,10 +65,11 @@ pipeline {
         }
         stage('Login to AWS ECR') {
             steps {
-                echo "Logging into AWS ECR..."
-                sh """
-                aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}
-                """
+                withAWS(credentials: AWS_CREDENTIALS, region: AWS_REGION) {
+                    sh """
+                    aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                    """
+                }
             }
         }
         stage('Push Docker Image to ECR') {
