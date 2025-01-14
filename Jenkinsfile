@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:22-alpine' // Use the Node.js 22 Alpine Docker image
+            image 'node:22-slim'
         }
     }
     environment {
@@ -14,6 +14,11 @@ pipeline {
         GIT_CREDENTIALS = 'github-credentials' // ID of GitHub credentials in Jenkins
     }
     stages {
+        stage('Install Git') {
+            steps {
+                sh 'apt-get update && apt-get install -y git'
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout([
