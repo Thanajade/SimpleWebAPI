@@ -73,6 +73,12 @@ pipeline {
                 }
             }
         }
+        stage('Generate Version File') {
+            steps {
+                echo "Generating version.json..."
+                sh 'npm generate-version'
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 echo "Installing project dependencies..."
@@ -89,6 +95,8 @@ pipeline {
             steps {
                 echo "Building production bundle..."
                 sh 'npm run build'
+                echo "Copy version into bundle..."
+                sh 'cp version.json dist/'
             }
         }
         stage('Build Docker Image') {
