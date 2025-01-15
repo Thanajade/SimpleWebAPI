@@ -122,28 +122,20 @@ pipeline {
     post {
         success {
             script {
-                def versionInfo = readJSON(file: 'version.json')
-                def versionMessage = """
-                Build successful for ${APP_NAME}!
-                - Build Timestamp: ${versionInfo.buildTimestamp}
-                - Git Branch: ${versionInfo.gitBranch}
-                - Git Commit Hash: ${versionInfo.gitHash}
+                def message = """
+                ${APP_NAME} - Build ${BUILD_NUMBER} successfully!
+                ${env.BUILD_URL}
                 """
-                notifyDiscord(versionMessage)
+                notifyDiscord(message)
             }
         }
         failure {
             script {
-                def versionInfo = fileExists('version.json') ? readJSON(file: 'version.json') : [:]
-                def versionMessage = """
-                Build failed for ${APP_NAME}.
-                - Build Timestamp: ${versionInfo.buildTimestamp ?: 'N/A'}
-                - Git Branch: ${versionInfo.gitBranch ?: 'N/A'}
-                - Git Commit Hash: ${versionInfo.gitHash ?: 'N/A'}
-                Check the logs for details:
+                def message = """
+                ${APP_NAME} - Build ${BUILD_NUMBER} failed!
                 ${env.BUILD_URL}
                 """
-                notifyDiscord(versionMessage)
+                notifyDiscord(message)
             }
         }
         always {
