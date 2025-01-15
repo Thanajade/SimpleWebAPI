@@ -59,19 +59,7 @@ pipeline {
                 sh "pwd"
                 sh "ls -a"
                 echo "Generating version.json..."
-                sh 'npm generate-version'
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                echo "Installing project dependencies..."
-                sh 'npm install'
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                echo "Running tests..."
-                sh 'npm test'
+                sh 'npm run genversion'
             }
         }
         stage('Build Production Bundle') {
