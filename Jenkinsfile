@@ -55,6 +55,9 @@ pipeline {
         }
         stage('Generate Version File') {
             steps {
+                echo "Current Directory"
+                sh "$(pwd)"
+                sh "ls -a"
                 echo "Generating version.json..."
                 sh 'npm generate-version'
             }
