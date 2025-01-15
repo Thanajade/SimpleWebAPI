@@ -12,6 +12,7 @@ pipeline {
         ECR_REPO = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/softsmith/${DOCKER_IMAGE}"
         AWS_CREDENTIALS = 'aws-credentials' // ID of AWS credentials in Jenkins
         GIT_CREDENTIALS = 'github-credentials' // ID of GitHub credentials in Jenkins
+        DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1329002173882699796/isCIInJpv-rvN9mSPAx5GFFVwntiM__bAGxodCtiZlunF7-WxfOjEh8flUbHjzHLmcpN'
     }
     stages {
         stage('Install Git') {
@@ -124,10 +125,20 @@ pipeline {
             cleanWs()
         }
         success {
-            echo "Build completed successfully!"
+            script {
+                notifyDiscord("Build successful for ${APP_NAME}!")
+            }
         }
         failure {
-            echo "Build failed!"
+            script {
+                notifyDiscord("Build failed for ${APP_NAME}. Check the logs for details.")
+            }
         }
     }
+}
+
+def notifyDiscord(message) {
+    sh """
+    curl -H "Content-Type: application/json" -X POST -d '{"content": "${message}"}' ${DISCORD_WEBHOOK_URL}
+    """
 }
