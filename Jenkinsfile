@@ -120,10 +120,6 @@ pipeline {
         }
     }
     post {
-        always {
-            echo "Cleaning up workspace..."
-            cleanWs()
-        }
         success {
             script {
                 def versionInfo = readJSON(file: 'version.json')
@@ -149,6 +145,10 @@ pipeline {
                 """
                 notifyDiscord(versionMessage)
             }
+        }
+        always {
+            echo "Cleaning up workspace..."
+            cleanWs()
         }
     }
 }
