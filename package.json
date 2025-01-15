@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && npm run test && npm run generate-version && NODE_ENV=development node index.js",
+    "start": "npm install && npm run test && npm run genversion && NODE_ENV=development node index.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:verbose": "jest --verbose",
     "build": "npm install && npm run test && npm run webpack && npm prune --production",
     "webpack": "webpack",
-    "generate-version": "node scripts/generateVersion.js"
+    "genversion": "node generateVersion.js"
   },
   "private": true,
   "dependencies": {

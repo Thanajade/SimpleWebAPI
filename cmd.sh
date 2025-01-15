@@ -16,3 +16,5 @@ npm run build
 
 # Run dist
 node dist/index.js
+
+docker exec -it -u root jenkins bash
