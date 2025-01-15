@@ -56,8 +56,7 @@ pipeline {
             steps {
                 echo "Generating version.json..."
                 script {
-                    def buildTimestamp = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))
-                    def timezone = TimeZone.getDefault().getID()
+                    def buildTimestamp = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('Asia/Bangkok'))
                     def gitHash = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
                     def gitBranch = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
 
